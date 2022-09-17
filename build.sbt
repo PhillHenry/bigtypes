@@ -1,6 +1,6 @@
 import Dependencies._
 
-ThisBuild / scalaVersion     := "3.1.1"
+ThisBuild / scalaVersion     := "3.1.3"
 ThisBuild / version          := "0.1.0"
 ThisBuild / organization     := "odinconsultants.co.uk"
 ThisBuild / organizationName := "OdinConsultants"
@@ -20,35 +20,14 @@ val commonSettings = List(
   scalafmtOnCompile := false, // recommended in Scala 3
   testFrameworks += new TestFramework("weaver.framework.CatsEffect"),
   libraryDependencies ++= Seq(
-    Libraries.cats,
-    Libraries.testkit,
-    Libraries.catsEffect,
-    Libraries.circeCore.value,
-    Libraries.circeParser.value,
-    Libraries.circeRefined.value,
-    Libraries.cirisCore,
-    Libraries.cirisRefined,
-    Libraries.fs2Core,
-    Libraries.fs2Kafka,
-    Libraries.http4sDsl,
-    Libraries.http4sMetrics,
-    Libraries.http4sServer,
-    Libraries.kittens,
-    Libraries.monocleCore.value,
-    Libraries.neutronCore,
-    Libraries.odin,
-    Libraries.redis4catsEffects,
     Libraries.refinedCore.value,
     Libraries.refinedCats.value,
     Libraries.ip4s,
     Libraries.logBack,
-    Libraries.monocleLaw          % Test,
-    Libraries.scalacheck          % Test,
-    Libraries.weaverCats          % Test,
-    Libraries.weaverDiscipline    % Test,
-    Libraries.weaverScalaCheck    % Test,
-    Libraries.dockerJava          % Test,
-    Libraries.dockerJavaTransport % Test,
+    Libraries.scalacheck       % Test,
+    Libraries.weaverCats       % Test,
+    Libraries.weaverDiscipline % Test,
+    Libraries.weaverScalaCheck % Test,
   ),
 )
 
@@ -64,7 +43,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "bigtypes"
   )
-  .aggregate(lib, core, it)
+  .aggregate(lib, core, sql, it)
 
 lazy val lib = (project in file("modules/lib"))
   .settings(commonSettings: _*)
@@ -80,6 +59,17 @@ lazy val it = (project in file("modules/it"))
   .settings(
     libraryDependencies ++= List(
       "ch.qos.logback" % "logback-classic" % "1.2.11" % Test
+    )
+  )
+
+// integration tests
+lazy val sql = (project in file("modules/sql"))
+  .settings(commonSettings: _*)
+  .dependsOn(core)
+  .settings(
+    libraryDependencies ++= Seq(
+      // Syncronous JDBC Modules
+      "io.getquill" %% "quill-jdbc" % "4.4.1"
     )
   )
 
