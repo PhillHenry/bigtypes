@@ -19,8 +19,15 @@ object MyApp {
     inline def somePeople    = quote {
       query[Person].filter(p => p.firstName == lift(named))
     }
+    inline def insertJoe     = quote {
+      query[Person].insertValue(Person("Joe", "Henry", 62))
+    }
+    inline def insertPhillip = quote {
+      query[Person].insertValue(Person("Phillip", "Henry", 62))
+    }
+    run(insertJoe)
+    run(insertPhillip)
     val people: List[Person] = run(somePeople)
-    // TODO Get SQL
     println(people)
   }
   private def createPersonTable(): Unit = {
