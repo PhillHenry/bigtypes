@@ -69,7 +69,8 @@ lazy val sql = (project in file("modules/sql"))
   .settings(
     libraryDependencies ++= Seq(
       // Syncronous JDBC Modules
-      "io.getquill" %% "quill-jdbc" % "4.4.1"
+      "io.getquill"   %% "quill-jdbc" % "4.4.1",
+      "com.h2database" % "h2"         % "1.4.200",
     )
   )
 

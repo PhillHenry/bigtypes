@@ -6,7 +6,7 @@ object MyApp {
   case class Person(firstName: String, lastName: String, age: Int)
 
   // SnakeCase turns firstName -> first_name
-  val ctx = new PostgresJdbcContext(SnakeCase, "ctx")
+  val ctx = new H2JdbcContext(SnakeCase, "ctx")
   import ctx.*
 
   def main(args: Array[String]): Unit = {
