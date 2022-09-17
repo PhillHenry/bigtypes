@@ -15,13 +15,11 @@ object MyApp {
   def main(args: Array[String]): Unit   = {
     createPersonTable()
 
-    val named             = "Joe"
-    inline def somePeople = quote {
+    val named                = "Joe"
+    inline def somePeople    =
       query[Person].filter(p => p.firstName == lift(named))
-    }
-    inline def insertJoe  =
-      query[Person].insertValue(Person("Joe", "Henry", 62))
-
+    inline def insertJoe     =
+      query[Person].insertValue(Person(lift(named), "Henry", 62))
     inline def insertPhillip =
       query[Person].insertValue(Person("Phillip", "Henry", 62))
 
